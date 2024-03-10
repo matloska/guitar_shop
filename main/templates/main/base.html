@@ -8,10 +8,12 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>GuitarShop</title>
+    <title>Guitar shop - {% block title %}
+      {% endblock %}
+    </title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light mt-2 ml-3 mr-3" style="background-color: rgb(47, 170, 23);">
         <a class="navbar-brand" href="#">GuitarShop</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -25,6 +27,7 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'main:guitar_list' %}">Guitars</a>
             </li>
+            {% if request.user.is_superuser %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Shop management
@@ -33,13 +36,21 @@
                 <a class="dropdown-item" href="{% url 'main:add_guitar' %}">Add Guitars</a>
               </div>
             </li>
+            {% endif %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 My Account
               </a>
+              {% if request.user.is_authenticated %}
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Login</a>
+                <a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a>
               </div>
+              {% else %}
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'main:login' %}">Login</a>
+                <a class="dropdown-item" href="{% url 'main:register' %}">Sign up</a>
+              </div>
+              {% endif %}
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
@@ -49,9 +60,20 @@
         </div>
       </nav>
 
-    {% block content %}
-
-    {% endblock content %}
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-1">
+              Check for our sponsors
+            </div>
+            <div class="col-10">
+              {% block content %}
+              {% endblock content %}
+            </div>
+            <div class="col-1">
+              Something
+            </div>
+          </div>
+        </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -1,4 +1,7 @@
 {% extends 'main/base.html' %}
+
+{% block title %}list of guitars{% endblock %}
+
 {% block content %}
 <h2>List guitars</h2>
 
@@ -15,7 +18,7 @@
                         <p> {{ object.main_img.url }} </p>
                         <img src="{{ object.main_img.url }}" class="img-responsive" style="width:150px; height:300px;" alt="guitar main image"/>
                     </div>
-                
+
                 </div>
             </div>
         {% endfor %}
